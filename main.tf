@@ -9,8 +9,8 @@ data "http" "cloudflare_ip6_addrs" {
 resource "digitalocean_firewall" "inbound_cloudflare" {
   name = "${var.name}"
 
-  droplet_ids = "${var.droplet_ids}"
-  tags = "${var.tags}"
+  droplet_ids = ["${var.droplet_ids}"]
+  tags = ["${var.tags}"]
 
   inbound_rule = [
     {
