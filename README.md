@@ -1,6 +1,16 @@
 # Terraform Module for DigitalOcean Firewall + Cloudflare
 
-This module allows you to create a DigitalOcean Firewall that only accepts inbound connections from Cloudflare's [published list](https://www.cloudflare.com/ips/) of IP addresses. This provides similar behavior to the `DenyAllButCloudFlare` rule from Cloudflare's [Mod_Cloudflare](https://www.cloudflare.com/technical-resources/#mod_cloudflare) Apache extension.
+This module allows you to create a DigitalOcean Firewall that only accepts inbound connections from Cloudflare's [published list](https://www.cloudflare.com/ips/) of IP addresses.
+
+### Why would I use this?
+
+Cloudflare provides DDOS protection for domains using its DNS. If an attacker knows the IP address of your origin server, this can easily be circumvented. Using the approach in this module prevents incoming connections to the server from all non-Cloudflare IPs.
+
+This could be done at the server level using `iptables` or other firewall software. Though a missconfigured firewall could prevent you from accessing your server. Using a DigitalOcean Firewall, you can open or close additional ports as needed.
+
+This can also be achieved at the web server level using the `DenyAllButCloudFlare` rule from Cloudflare's [Mod_Cloudflare](https://www.cloudflare.com/technical-resources/#mod_cloudflare) Apache extension or similar tools for Nginx. Though this still uses bandwidth and system resources on the origin server. Using a DigitalOcean Firewall means the un-wanted traffic will be blocked before it ever reaches you.
+
+Cloudflare IP addresses may also change. Tracking those changes and applying them by hand in the DigitalOcean control panel can be tedious. Using this module, re-running `terraform apply` will pick up those changes and reconfigure your Firewall.
 
 ## Module input variables
 
