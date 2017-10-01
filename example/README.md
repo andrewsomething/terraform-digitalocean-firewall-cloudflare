@@ -3,7 +3,7 @@
 This example will create the following resources:
 
 - 1 DigitalOcean Droplet 
-- 1 Cloudflare A record named
+- 1 Cloudflare A record
 - 1 DigitalOcean Firewall
 
 It requires the following input variables:
