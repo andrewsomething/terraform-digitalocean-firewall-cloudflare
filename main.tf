@@ -1,11 +1,4 @@
-data "http" "cloudflare_ip4_addrs" {
-  url = "https://www.cloudflare.com/ips-v4"
-}
-
-data "http" "cloudflare_ip6_addrs" {
-  url = "https://www.cloudflare.com/ips-v6"
-}
-
+data "cloudflare_ip_ranges" "cloudflare" {}
 resource "digitalocean_firewall" "inbound_cloudflare" {
   name = "${var.name}"
 
@@ -17,16 +10,16 @@ resource "digitalocean_firewall" "inbound_cloudflare" {
       protocol         = "tcp"
       port_range       = "80"
       source_addresses = [
-        "${split("\n", trimspace(data.http.cloudflare_ip4_addrs.body))}",
-        "${split("\n", trimspace(data.http.cloudflare_ip6_addrs.body))}"
+        "${data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks}",
+        "${data.cloudflare_ip_ranges.cloudflare.ipv6_cidr_blocks}"
       ]
     },
     {
       protocol         = "tcp"
       port_range       = "443"
       source_addresses = [
-        "${split("\n", trimspace(data.http.cloudflare_ip4_addrs.body))}",
-        "${split("\n", trimspace(data.http.cloudflare_ip6_addrs.body))}"
+        "${data.cloudflare_ip_ranges.cloudflare.ipv4_cidr_blocks}",
+        "${data.cloudflare_ip_ranges.cloudflare.ipv6_cidr_blocks}"
       ]
     },
   ]
