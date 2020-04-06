@@ -1,7 +1,12 @@
+variable "cloudflare_email" {}
+variable "cloudflare_token" {}
+variable "cloudflare_domain" {}
+variable "cloudflare_zone_id" {}
+
 variable "do_token" {}
 
 variable "do_image" {
-  default = "lemp-16-04"
+  default = "lemp-18-04"
 }
 
 variable "do_region" {
