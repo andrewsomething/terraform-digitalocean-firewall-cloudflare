@@ -12,12 +12,17 @@ It requires the following input variables:
 - `cloudflare_token`  - Your Cloudflare API token.
 - `do_token`          - Your DigitalOcean API token.
 - `cloudflare_domain` - The Cloudflare domain to which the A record will be added.
+- `cloudflare_zone_id` - The ID of the Cloudflare zone to which the A record will be added.
 - `test_name` - The name that will be used for both the A record and the Droplet. (Default: `tf-example`)
 
 You can run this example with:
 
 ```
 terraform init
-terraform plan -var "do_token=$DO_TOKEN" -var "cloudflare_email=$CF_EMAIL" -var "cloudflare_token=$CF_TOKEN" -var "cloudflare_domain=$CF_DOMAIN"
-terraform apply -var "do_token=$DO_TOKEN" -var "cloudflare_email=$CF_EMAIL" -var "cloudflare_token=$CF_TOKEN" -var "cloudflare_domain=$CF_DOMAIN"
+terraform plan -var "do_token=$DO_TOKEN" -var "cloudflare_email=$CF_EMAIL" \
+    -var "cloudflare_token=$CF_TOKEN" -var "cloudflare_domain=$CF_DOMAIN" \
+    -var "cloudflare_zone_id=$CF_ZONE_ID"
+terraform apply -var "do_token=$DO_TOKEN" -var "cloudflare_email=$CF_EMAIL" \
+    -var "cloudflare_token=$CF_TOKEN" -var "cloudflare_zone_id=$CF_ZONE_ID \
+    -var "cloudflare_domain=$CF_DOMAIN"
 ```
