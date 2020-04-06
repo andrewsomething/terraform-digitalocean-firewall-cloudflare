@@ -7,27 +7,26 @@ data "http" "cloudflare_ip6_addrs" {
 }
 
 resource "digitalocean_firewall" "inbound_cloudflare" {
-  name = "${var.name}"
+  name = var.name
 
-  droplet_ids = ["${var.droplet_ids}"]
-  tags = ["${var.tags}"]
+  droplet_ids = var.droplet_ids
+  tags        = var.tags
 
-  inbound_rule = [
-    {
-      protocol         = "tcp"
-      port_range       = "80"
-      source_addresses = [
-        "${split("\n", trimspace(data.http.cloudflare_ip4_addrs.body))}",
-        "${split("\n", trimspace(data.http.cloudflare_ip6_addrs.body))}"
-      ]
-    },
-    {
-      protocol         = "tcp"
-      port_range       = "443"
-      source_addresses = [
-        "${split("\n", trimspace(data.http.cloudflare_ip4_addrs.body))}",
-        "${split("\n", trimspace(data.http.cloudflare_ip6_addrs.body))}"
-      ]
-    },
-  ]
+  inbound_rule {
+      protocol   = "tcp"
+      port_range = "80"
+      source_addresses = concat(
+        split("\n", trimspace(data.http.cloudflare_ip4_addrs.body)),
+        split("\n", trimspace(data.http.cloudflare_ip6_addrs.body))
+      )
+  }
+  
+  inbound_rule {
+      protocol   = "tcp"
+      port_range = "443"
+      source_addresses = concat(
+        split("\n", trimspace(data.http.cloudflare_ip4_addrs.body)),
+        split("\n", trimspace(data.http.cloudflare_ip6_addrs.body))
+      )
+  }
 }
