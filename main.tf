@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
+  }
+}
+
 data "http" "cloudflare_ip4_addrs" {
   url = "https://www.cloudflare.com/ips-v4"
 }
